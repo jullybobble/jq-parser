@@ -61,33 +61,11 @@ object JQParser {
       "-" ~ exp
   ).!
 
+  val ops = P(StringIn("and", "or", "//=", "|=", ">=", "==", "<=", "+=", "%=", "/=", "//", "*=", "!=", "-=")
+    | CharIn("|>=<+%/*,-"))
+
   val exp3: P[String] = P(
-    exp2.rep(min = 1, sep = P(
-      "and" |
-        "or" |
-        "//=" |
-        "|=" |
-        ">=" |
-        "==" |
-        "<=" |
-        "+=" |
-        "%=" |
-        "/=" |
-        "//" |
-        "*=" |
-        "!=" |
-        "-=" |
-        "|" |
-        ">" |
-        "=" |
-        "<" |
-        "+" |
-        "%" |
-        "/" |
-        "*" |
-        "," |
-        "-"
-    ))
+    exp2.rep(min = 1, sep = ops)
   ).!
 
   val exp: P[String] = exp3
@@ -155,27 +133,28 @@ object JQParser {
   ).!
 
   val keyword: P[String] = P(
-    "utf8bytelength" |
-      "__loc__" |
-      "foreach" |
-      "include" |
-      "import" |
-      "module" |
-      "reduce" |
-      "break" |
-      "catch" |
-      "label" |
-      "elif" |
-      "else" |
-      "then" |
-      "and" |
-      "def" |
-      "end" |
-      "try" |
-      "as" |
-      "if" |
+    StringIn(
+      "utf8bytelength",
+      "__loc__",
+      "foreach",
+      "include",
+      "import",
+      "module",
+      "reduce",
+      "break",
+      "catch",
+      "label",
+      "elif",
+      "else",
+      "then",
+      "and",
+      "def",
+      "end",
+      "try",
+      "as",
+      "if",
       "or"
-  ).!
+    )).!
 
   val pattern: P[String] = P(
     varRef |
